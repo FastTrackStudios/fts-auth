@@ -1,0 +1,23 @@
+[package]
+name = "fts-auth"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "The deployed FastTrackStudio identity server — auth.fasttrackstudio.app."
+
+[dependencies]
+# The reusable server lives in the architect repo; this crate is only
+# the FastTrackStudio *deployment* of it.
+#
+# TODO: pin to a tag once FastTrackStudios/architect#1 merges. A branch
+# is a moving target, and an auth server is the last thing that should
+# change under you unnoticed.
+auth-server = { git = "https://github.com/FastTrackStudios/architect", branch = "feat/standalone-auth-server" }
+architect = { git = "https://github.com/FastTrackStudios/architect", branch = "feat/standalone-auth-server", features = ["server", "host"] }
+eyre = "0.6"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+
+[profile.release]
+lto = "thin"
+strip = true
