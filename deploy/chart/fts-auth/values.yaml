@@ -1,0 +1,56 @@
+# Defaults are the shape of the thing, not the deployment. The cluster
+# overrides host/image/clients from the starcommand service module
+# (modules/services/fts-auth), which is the single source of truth for
+# what actually runs.
+
+image:
+  registry: registry.starcommand.live:30050
+  repository: fts-auth
+  tag: latest
+  pullPolicy: IfNotPresent
+
+# Two by default: the server is stateless (all state is in Postgres) and
+# sign-in being down takes every app down with it.
+replicaCount: 2
+
+service:
+  port: 80
+  targetPort: 8080
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - auth.fasttrackstudio.app
+  annotations: {}
+
+# The externally visible origin. Every endpoint in the OIDC discovery
+# document is derived from it, so it must not be the pod address.
+baseUrl: https://auth.fasttrackstudio.app
+# Stable identity, deliberately separable from the hostname: relying
+# parties pin the issuer, so it must survive a move.
+oidcIssuer: https://auth.fasttrackstudio.app
+
+sessionTtlSeconds: 2592000 # 30 days
+passkeyRpId: fasttrackstudio.app
+# Turn on once SMTP is wired up. Until then an unverified address can
+# sign in, which is the price of the thing being usable at all.
+requireEmailVerification: false
+# An open registration endpoint on a public issuer lets anyone mint a
+# client. Clients are declared, not self-registered.
+oidcDynamicRegistration: false
+
+corsOrigins: []
+# JSON array, rendered verbatim into AUTH_OIDC_CLIENTS.
+oidcClients: "[]"
+
+# Secret holding `auth-secret` and `database-url`. Delivered by the
+# cluster secrets app; never committed.
+secretName: fts-auth-secrets
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    memory: 512Mi

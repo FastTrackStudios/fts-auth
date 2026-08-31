@@ -9,11 +9,10 @@ description = "The deployed FastTrackStudio identity server — auth.fasttrackst
 # The reusable server lives in the architect repo; this crate is only
 # the FastTrackStudio *deployment* of it.
 #
-# TODO: pin to a tag once FastTrackStudios/architect#1 merges. A branch
-# is a moving target, and an auth server is the last thing that should
-# change under you unnoticed.
-auth-server = { git = "https://github.com/FastTrackStudios/architect", branch = "feat/standalone-auth-server" }
-architect = { git = "https://github.com/FastTrackStudios/architect", branch = "feat/standalone-auth-server", features = ["server", "host"] }
+# Pinned to a tag, not a branch: an auth server is the last thing that
+# should change under you unnoticed.
+auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.6.0" }
+architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.6.0", features = ["server", "host"] }
 eyre = "0.6"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"

@@ -1,0 +1,10 @@
+# Sign-in must not be knocked over by a node drain or a noisy rollout.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: fts-auth
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: fts-auth

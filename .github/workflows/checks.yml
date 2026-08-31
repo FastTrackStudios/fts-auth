@@ -1,0 +1,18 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  chart:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+      # The chart is what actually reaches the cluster; a template error
+      # here is a failed sync, not a failed build.
+      - run: helm lint deploy/chart/fts-auth
+      - run: helm template fts-auth deploy/chart/fts-auth > /dev/null

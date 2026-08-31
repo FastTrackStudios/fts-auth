@@ -1,0 +1,96 @@
+# Deploys fts-auth.
+#
+#   nix build .#image -> registry.starcommand.live:30050/fts-auth:{latest,sha-…}
+#
+# Runs on the SELF-HOSTED runner labeled `nix-host` (THEBATTLESHIP): the
+# in-cluster registry is LAN-only and unreachable from GitHub-hosted
+# runners.
+#
+# NO DOCKER ANYWHERE. That runner executes as the `github-runner` user,
+# which has no docker on PATH and is not in the `docker` group — putting
+# it there would hand CI effectively-root access to the workstation. The
+# image is an ordinary Nix derivation (dockerTools.streamLayeredImage,
+# see nix/image.nix) streamed straight into skopeo. Same shape as
+# fasttrackstudio.app's fts-www.
+#
+# argocd-image-updater (digest strategy on the `latest` tag) rolls the
+# Deployment; "Verify live" then polls the OIDC discovery document until
+# the cluster answers, so a green run means deployed, not merely pushed.
+
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Never cancel a deploy mid-push; queue instead. This is the sign-in
+# path for every app.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  REGISTRY: registry.starcommand.live:30050
+  IMAGE: fts-auth
+  # Newer skopeo rejects the host's v1 registries.conf; we name the
+  # registry explicitly everywhere, so use an empty (valid) config.
+  CONTAINERS_REGISTRIES_CONF: /dev/null
+  VERIFY_URL: https://auth.fasttrackstudio.app
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, nix-host]
+    environment:
+      name: production
+      url: https://auth.fasttrackstudio.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compute tags
+        id: tags
+        run: echo "sha=sha-$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Build image
+        id: image
+        env:
+          FTS_REV: ${{ github.sha }}
+          FTS_TAG: latest
+        run: |
+          set -euo pipefail
+          # --impure: nix/image.nix reads the tag/rev from the environment.
+          # Everything else about the image is pinned by flake.lock.
+          streamer="$(nix build --impure --no-link --print-out-paths .#image)"
+          echo "streamer=$streamer" >> "$GITHUB_OUTPUT"
+
+      - name: Push image
+        run: |
+          set -euo pipefail
+          "${{ steps.image.outputs.streamer }}" | nix develop --command skopeo \
+            --insecure-policy copy --dest-tls-verify=false --dest-no-creds \
+            docker-archive:/dev/stdin \
+            "docker://${REGISTRY}/${IMAGE}:latest"
+          nix develop --command skopeo \
+            --insecure-policy copy \
+            --src-tls-verify=false --src-no-creds \
+            --dest-tls-verify=false --dest-no-creds \
+            "docker://${REGISTRY}/${IMAGE}:latest" \
+            "docker://${REGISTRY}/${IMAGE}:${{ steps.tags.outputs.sha }}"
+
+      - name: Verify live
+        run: |
+          echo "waiting for ${VERIFY_URL} to answer discovery"
+          for i in $(seq 1 60); do
+            iss="$(curl -sf --max-time 10 \
+              "${VERIFY_URL}/.well-known/openid-configuration" \
+              | sed -n 's/.*"issuer":"\([^"]*\)".*/\1/p' || true)"
+            echo "  poll $i: issuer=${iss:-?}"
+            if [ -n "$iss" ]; then
+              echo "LIVE: ${VERIFY_URL} issues as ${iss}"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "TIMED OUT: ${VERIFY_URL} never answered"
+          echo "check argocd-image-updater and the fts-auth Application"
+          exit 1

@@ -1,0 +1,103 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fts-auth
+  labels:
+    app: fts-auth
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      # Never drop below full capacity: this is the sign-in path.
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: fts-auth
+  template:
+    metadata:
+      labels:
+        app: fts-auth
+      annotations:
+        # Roll the pods when the secret changes, so a rotated signing key
+        # actually takes effect instead of waiting for an unrelated deploy.
+        checksum/secret-name: {{ .Values.secretName | sha256sum }}
+    spec:
+      # k8s injects <SVC>_PORT=tcp://… for every service in the namespace;
+      # they collide with app config.
+      enableServiceLinks: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: fts-auth
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetPort }}
+          env:
+            - name: AUTH_BIND_ADDR
+              value: "0.0.0.0:{{ .Values.service.targetPort }}"
+            - name: AUTH_BASE_URL
+              value: {{ .Values.baseUrl | quote }}
+            - name: AUTH_OIDC_ISSUER
+              value: {{ .Values.oidcIssuer | quote }}
+            - name: AUTH_SESSION_TTL_SECONDS
+              value: {{ .Values.sessionTtlSeconds | quote }}
+            - name: AUTH_PASSKEY_RP_ID
+              value: {{ .Values.passkeyRpId | quote }}
+            - name: AUTH_REQUIRE_EMAIL_VERIFICATION
+              value: {{ .Values.requireEmailVerification | quote }}
+            - name: AUTH_OIDC_DYNAMIC_REGISTRATION
+              value: {{ .Values.oidcDynamicRegistration | quote }}
+            {{- if .Values.corsOrigins }}
+            - name: AUTH_CORS_ORIGINS
+              value: {{ join "," .Values.corsOrigins | quote }}
+            {{- end }}
+            - name: AUTH_OIDC_CLIENTS
+              value: {{ .Values.oidcClients | quote }}
+            # Secrets arrive as file paths, not values: an env var shows up
+            # in `kubectl describe pod` and in crash dumps.
+            - name: AUTH_SECRET_FILE
+              value: /var/run/secrets/fts-auth/auth-secret
+            - name: AUTH_DATABASE_URL_FILE
+              value: /var/run/secrets/fts-auth/database-url
+          volumeMounts:
+            - name: secrets
+              mountPath: /var/run/secrets/fts-auth
+              readOnly: true
+          # Migrations run on boot and are idempotent (verified against a
+          # real Postgres upstream), so a rolling update is safe. The
+          # startup probe gives the first pod room to apply them before
+          # liveness starts counting.
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            failureThreshold: 30
+            periodSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+      volumes:
+        - name: secrets
+          secret:
+            secretName: {{ .Values.secretName }}

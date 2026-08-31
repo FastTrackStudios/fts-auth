@@ -58,42 +58,39 @@ not show up in `kubectl describe pod` or a crash dump.
 
 ## Deploying
 
-ArgoCD syncs `deploy/`. Before the first sync:
+Argo CD syncs `deploy/chart/fts-auth`. The `Application` itself is
+declared in the cluster repo (`~/.starcommand`,
+`modules/services/fts-auth`), which also owns the CNPG database and the
+secrets — so this repo holds the code, the chart and the image build, and
+the cluster holds what actually runs.
 
-1. **Database.** Add a CNPG `Database` + owner role for `fts_auth` on
-   `pg-main`, alongside the existing entries in the cluster repo's
-   `databases` service:
+The image is built by `.github/workflows/deploy.yml` on the self-hosted
+`nix-host` runner: `nix build .#image` (dockerTools, no Docker daemon)
+streamed through skopeo to `registry.starcommand.live:30050/fts-auth`.
+The in-cluster registry is LAN-only, so a GitHub-hosted runner cannot
+reach it. `argocd-image-updater` then rolls the Deployment by digest.
 
-   ```yaml
-   apiVersion: postgresql.cnpg.io/v1
-   kind: Database
-   metadata:
-     name: pg-main-fts-auth
-     namespace: databases
-   spec:
-     name: fts_auth
-     owner: fts_auth
-     cluster:
-       name: pg-main
-   ```
+Historical note, in case the first sync misbehaves:
 
-2. **Secret.** `fts-auth-secrets` in namespace `fts-auth`, keys
-   `auth-secret` and `database-url`. Delivered by the cluster secrets
-   app — never committed here. Generate the signing key with
-   `openssl rand -base64 48`.
+1. **Database.** CNPG `Database` + owner role for `fts_auth` on
+   `pg-main` — declared in the cluster's `databases` service.
 
-3. **Ingress target.** Replace `TUNNEL_TARGET_PLACEHOLDER` in
-   `deploy/manifests.yaml` with the cluster's tunnel target (the value
-   `fts.constants.tunnelTarget` renders to), so external-dns points
-   `auth.fasttrackstudio.app` through the Cloudflare tunnel.
+2. **Secrets.** `fts-auth-pg` and `fts-auth-secrets`, from nix-secrets
+   via `just gen-secrets`. Never committed here. Rotating the signing
+   key invalidates every live session across every app — that is the
+   revoke-all lever, by design.
 
-4. **Repo credential.** This repo is private; register a read-only
-   deploy key with ArgoCD before applying
-   `deploy/argocd-application.yaml`.
+3. **Ingress target.** The external-dns annotation comes from
+   `constants.tunnelTarget` in the cluster module, so the hostname
+   resolves through the Cloudflare tunnel.
 
-5. **Image.** CI publishes `ghcr.io/fasttrackstudios/fts-auth`. Pin the
-   Deployment to a digest — a floating tag on an auth server means an
-   unreviewed binary can start issuing tokens.
+4. **Repo credential.** This repo is private, so Argo CD needs a
+   read-only deploy key registered as a repository secret before it can
+   read the chart.
+
+5. **Architect hash.** `flake.nix` pins the hash of the `architect` git
+   dependency. When the pinned tag moves, the build fails loudly with
+   the expected value — paste what it prints.
 
 ## Caveats
 
