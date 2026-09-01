@@ -47,7 +47,14 @@ spec:
             - name: AUTH_OIDC_ISSUER
               value: {{ .Values.oidcIssuer | quote }}
             - name: AUTH_SESSION_TTL_SECONDS
-              value: {{ .Values.sessionTtlSeconds | quote }}
+              # `int` before `quote`, or the pod will not start. Helm parses
+              # YAML numbers as float64, and quoting a float goes through Go's
+              # %g — which renders 2592000 as "2.592e+06". The server parses
+              # this as an integer and refuses to boot:
+              #   Error: AUTH_SESSION_TTL_SECONDS must be a integer,
+              #          got `2.592e+06`
+              # Only bites above ~1e6, so a short TTL in testing hides it.
+              value: {{ int .Values.sessionTtlSeconds | quote }}
             - name: AUTH_PASSKEY_RP_ID
               value: {{ .Values.passkeyRpId | quote }}
             - name: AUTH_REQUIRE_EMAIL_VERIFICATION
