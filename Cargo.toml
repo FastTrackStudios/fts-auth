@@ -11,8 +11,8 @@ description = "The deployed FastTrackStudio identity server — auth.fasttrackst
 #
 # Pinned to a tag, not a branch: an auth server is the last thing that
 # should change under you unnoticed.
-auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.6.0" }
-architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.6.0", features = ["server", "host"] }
+auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.7.0" }
+architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.7.0", features = ["server", "host"] }
 eyre = "0.6"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
