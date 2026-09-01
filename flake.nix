@@ -34,12 +34,18 @@
 
           cargoLock = {
             lockFile = ./Cargo.lock;
-            # architect is a git dependency, so Nix needs its hash. Update
-            # this whenever the pinned architect tag moves — the build fails
-            # loudly with the expected value, so the fix is to paste what it
-            # prints.
+            # Git dependencies need their hash pinned here. Update whenever
+            # a pinned tag or rev moves — the build fails loudly with the
+            # expected value, so the fix is to paste what it prints.
+            #
+            # One entry per git *source*, not per crate, keyed by the
+            # alphabetically first crate that source provides. Dioxus is 30
+            # crates from a single rev, and `const-serialize` happens to
+            # sort first — which is why the key names a crate nothing here
+            # depends on directly.
             outputHashes = {
-              "architect-0.1.0" = "sha256-pAjc8JbLIJqlqDKOZR3yyvBNFp9h9cF6RtLXmfRQlY4=";
+              "architect-0.1.0" = "sha256-sxZEvNxZWZENWkreBC87i1FrkLgyNCbQulfIh/WLQBU=";
+              "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
             };
           };
 
