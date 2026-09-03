@@ -41,11 +41,20 @@ requireEmailVerification: false
 oidcDynamicRegistration: false
 
 corsOrigins: []
-# JSON array, rendered verbatim into AUTH_OIDC_CLIENTS.
+# JSON array, rendered verbatim into AUTH_OIDC_CLIENTS. PUBLIC clients
+# only — native apps and SPAs, which hold no secret and use PKCE.
 oidcClients: "[]"
 
-# Secret holding `auth-secret` and `database-url`. Delivered by the
-# cluster secrets app; never committed.
+# Whether any CONFIDENTIAL client is registered. Their JSON contains a
+# `client_secret`, so the list itself is a secret: it comes from the
+# `oidc-clients-extra` key of the secret below rather than from these
+# values, which are committed to the cluster repo. This flag only decides
+# whether the server is told to read that file.
+oidcConfidentialClients: false
+
+# Secret holding `auth-secret`, `database-url` and — when
+# `oidcConfidentialClients` is set — `oidc-clients-extra`. Delivered by
+# the cluster secrets app; never committed.
 secretName: fts-auth-secrets
 
 resources:

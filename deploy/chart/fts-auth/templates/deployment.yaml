@@ -74,6 +74,15 @@ spec:
             {{- end }}
             - name: AUTH_OIDC_CLIENTS
               value: {{ .Values.oidcClients | quote }}
+            # Confidential clients arrive separately, and as a FILE. Their
+            # entries contain a `client_secret`, so unlike the public
+            # clients above they cannot live in the Application's Helm
+            # values — those are committed to the cluster repo. Merged by
+            # client_id over AUTH_OIDC_CLIENTS.
+            {{- if .Values.oidcConfidentialClients }}
+            - name: AUTH_OIDC_CLIENTS_EXTRA_FILE
+              value: /var/run/secrets/fts-auth/oidc-clients-extra
+            {{- end }}
             # Secrets arrive as file paths, not values: an env var shows up
             # in `kubectl describe pod` and in crash dumps.
             - name: AUTH_SECRET_FILE

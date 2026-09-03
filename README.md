@@ -49,7 +49,8 @@ Optional, with defaults:
 | `AUTH_REQUIRE_EMAIL_VERIFICATION` | `false` | Turn on once SMTP exists. |
 | `AUTH_PASSKEY_RP_ID` | unset | Registrable domain, e.g. `fasttrackstudio.app`. |
 | `AUTH_CORS_ORIGINS` | none | Comma-separated. Empty allows no cross-origin calls. |
-| `AUTH_OIDC_CLIENTS` | `[]` | JSON array; see the Deployment manifest. |
+| `AUTH_OIDC_CLIENTS` | `[]` | JSON array of PUBLIC clients; see the Deployment manifest. |
+| `AUTH_OIDC_CLIENTS_EXTRA` | `[]` | JSON array merged over the above by `client_id`. This is where CONFIDENTIAL clients go — their entry contains a `client_secret`, so use the `_FILE` form and mount it from a secret rather than putting it in the cluster repo's Helm values. |
 | `AUTH_OIDC_DYNAMIC_REGISTRATION` | `false` | Keep off on a public issuer. |
 | `AUTH_RUN_MIGRATIONS` | `true` | Idempotent; safe on every pod start. |
 
@@ -101,6 +102,21 @@ publishing it would let any reader mint tokens for any account. Relying
 parties verify through `/oauth2/userinfo` instead. Offline id_token
 verification by a genuine third party needs RS256/ES256 support
 upstream.
+
+**PKCE is required of public clients only.** The five first-party apps are
+public clients — they ship their whole configuration to the user's device,
+so the authorization code is all that stands between an attacker who can
+intercept the redirect and a session, and PKCE is what binds the code to
+the requester. A confidential client proves itself at the token endpoint
+with a secret instead, which is why `require_pkce` does not apply to it.
+RFC 9700 recommends PKCE there too; requiring it would lock out correct
+server-side clients that never implemented it — Discourse's `oauth2-basic`
+plugin, which the forum at `forum.fasttrackstudio.app` signs in with, is
+exactly that case.
+
+**The token endpoint reads `client_secret` from the form body only.** There
+is no HTTP Basic support, so a relying party must be configured to send
+credentials in the request body (`client_secret_post`).
 
 **The HTTP surface is a subset.** `architect-auth` describes ~150
 routes; this server mounts the OIDC provider and the core session API.
