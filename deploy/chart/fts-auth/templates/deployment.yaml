@@ -101,6 +101,23 @@ spec:
             - name: AUTH_SMTP_PASSWORD_FILE
               value: /var/run/secrets/fts-auth/smtp-password
             {{- end }}
+            {{- if .Values.social.github.clientId }}
+            # Social sign-in and account linking. A client id turns the
+            # provider on; the secret is a key of the secret volume. The
+            # callback to register with the provider is
+            # <baseUrl>/auth/social/github/callback.
+            - name: AUTH_GITHUB_CLIENT_ID
+              value: {{ .Values.social.github.clientId | quote }}
+            - name: AUTH_GITHUB_CLIENT_SECRET_FILE
+              value: /var/run/secrets/fts-auth/github-client-secret
+            {{- end }}
+            {{- if .Values.social.google.clientId }}
+            # <baseUrl>/auth/social/google/callback
+            - name: AUTH_GOOGLE_CLIENT_ID
+              value: {{ .Values.social.google.clientId | quote }}
+            - name: AUTH_GOOGLE_CLIENT_SECRET_FILE
+              value: /var/run/secrets/fts-auth/google-client-secret
+            {{- end }}
             - name: AUTH_SECRET_FILE
               value: /var/run/secrets/fts-auth/auth-secret
             - name: AUTH_DATABASE_URL_FILE

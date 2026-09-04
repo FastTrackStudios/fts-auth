@@ -57,6 +57,9 @@ Optional, with defaults:
 | `AUTH_SMTP_USERNAME` / `AUTH_SMTP_PASSWORD` | unset | `_FILE` variant preferred for the password. |
 | `AUTH_MAIL_FROM` | `noreply@localhost` | Must be an address the provider allows this server to send as. |
 | `AUTH_RUN_MIGRATIONS` | `true` | Idempotent; safe on every pod start. |
+| `AUTH_GITHUB_CLIENT_ID` / `AUTH_GITHUB_CLIENT_SECRET` (`_FILE`) | unset | "Continue with GitHub" and account linking. Register `<base>/auth/social/github/callback` with the OAuth App. `AUTH_GITHUB_SCOPES` defaults to `repo read:user user:email` — `repo` is what lets Task push a wiki edit as the linked person. |
+| `AUTH_GOOGLE_CLIENT_ID` / `AUTH_GOOGLE_CLIENT_SECRET` (`_FILE`) | unset | "Continue with Google" and account linking. Authorized redirect URI `<base>/auth/social/google/callback`; `AUTH_GOOGLE_SCOPES` defaults to `openid email profile`. |
+| `AUTH_LINKED_TOKEN_SCOPE` | `forge:github` | The OIDC scope a relying party must hold for `GET /oauth2/linked-token?provider=github` to hand it the signed-in person's linked GitHub token. First-party clients list it in their `scopes`. |
 
 The `_FILE` variants are preferred in the cluster: a mounted file does
 not show up in `kubectl describe pod` or a crash dump.

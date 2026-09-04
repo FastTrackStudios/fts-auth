@@ -61,9 +61,22 @@ mail:
   username: ""
   from: ""
 
-# Secret holding `auth-secret`, `database-url` and — when
-# `oidcConfidentialClients` is set — `oidc-clients-extra`. Delivered by
-# the cluster secrets app; never committed.
+# Social sign-in and account linking (GitHub, Google). A client id turns
+# a provider on; the matching client secret is the `github-client-secret`
+# / `google-client-secret` key of the secret below. Register
+# `<baseUrl>/auth/social/<provider>/callback` with the provider. Linked
+# GitHub accounts are what `/oauth2/linked-token` hands to a relying
+# party holding the `forge:github` scope.
+social:
+  github:
+    clientId: ""
+  google:
+    clientId: ""
+
+# Secret holding `auth-secret`, `database-url`, — when
+# `oidcConfidentialClients` is set — `oidc-clients-extra`, and — when a
+# social provider is on — `github-client-secret` / `google-client-secret`.
+# Delivered by the cluster secrets app; never committed.
 secretName: fts-auth-secrets
 
 resources:
