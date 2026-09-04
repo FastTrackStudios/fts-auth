@@ -85,6 +85,22 @@ spec:
             {{- end }}
             # Secrets arrive as file paths, not values: an env var shows up
             # in `kubectl describe pod` and in crash dumps.
+            {{- if .Values.mail.host }}
+            # Without AUTH_SMTP_HOST the server runs in LOG mode: it
+            # writes verification and reset links to the log instead of
+            # sending them, and looks perfectly healthy while delivering
+            # nothing. The startup log says which mode it chose.
+            - name: AUTH_SMTP_HOST
+              value: {{ .Values.mail.host | quote }}
+            - name: AUTH_SMTP_PORT
+              value: {{ .Values.mail.port | quote }}
+            - name: AUTH_SMTP_USERNAME
+              value: {{ .Values.mail.username | quote }}
+            - name: AUTH_MAIL_FROM
+              value: {{ .Values.mail.from | quote }}
+            - name: AUTH_SMTP_PASSWORD_FILE
+              value: /var/run/secrets/fts-auth/smtp-password
+            {{- end }}
             - name: AUTH_SECRET_FILE
               value: /var/run/secrets/fts-auth/auth-secret
             - name: AUTH_DATABASE_URL_FILE

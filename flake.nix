@@ -44,7 +44,7 @@
             # sort first — which is why the key names a crate nothing here
             # depends on directly.
             outputHashes = {
-              "architect-0.1.0" = "sha256-n7B6yOqAgdUjk2/UwT04sEOZbZ6h/d33ICXCAWP6JNg=";
+              "architect-0.1.0" = "sha256-z8MBewFLIuKJWFvyPc1ZJFvfbnnLeT+qEcMuxyTPyjc=";
               "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
             };
           };

@@ -52,6 +52,10 @@ Optional, with defaults:
 | `AUTH_OIDC_CLIENTS` | `[]` | JSON array of PUBLIC clients; see the Deployment manifest. |
 | `AUTH_OIDC_CLIENTS_EXTRA` | `[]` | JSON array merged over the above by `client_id`. This is where CONFIDENTIAL clients go — their entry contains a `client_secret`, so use the `_FILE` form and mount it from a secret rather than putting it in the cluster repo's Helm values. |
 | `AUTH_OIDC_DYNAMIC_REGISTRATION` | `false` | Keep off on a public issuer. |
+| `AUTH_SMTP_HOST` | unset | **Unset means mail is only LOGGED, not sent** — verification and password-reset links go to the log at INFO. Fine for development; in production it looks healthy while delivering nothing, so the startup log says which mode it is in. |
+| `AUTH_SMTP_PORT` | `587` | Submission, STARTTLS. The transport refuses to fall back to plaintext. |
+| `AUTH_SMTP_USERNAME` / `AUTH_SMTP_PASSWORD` | unset | `_FILE` variant preferred for the password. |
+| `AUTH_MAIL_FROM` | `noreply@localhost` | Must be an address the provider allows this server to send as. |
 | `AUTH_RUN_MIGRATIONS` | `true` | Idempotent; safe on every pod start. |
 
 The `_FILE` variants are preferred in the cluster: a mounted file does

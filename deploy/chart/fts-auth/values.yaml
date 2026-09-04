@@ -52,6 +52,15 @@ oidcClients: "[]"
 # whether the server is told to read that file.
 oidcConfidentialClients: false
 
+# Outgoing mail. An empty host means the server LOGS verification and
+# password-reset links rather than sending them — usable for a first
+# deploy, dangerous to leave in production.
+mail:
+  host: ""
+  port: 587
+  username: ""
+  from: ""
+
 # Secret holding `auth-secret`, `database-url` and — when
 # `oidcConfidentialClients` is set — `oidc-clients-extra`. Delivered by
 # the cluster secrets app; never committed.
