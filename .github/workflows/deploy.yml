@@ -40,7 +40,7 @@ env:
 
 jobs:
   deploy:
-    runs-on: [self-hosted, nix-host]
+    runs-on: [self-hosted, auth]
     environment:
       name: production
       url: https://auth.fasttrackstudio.app
