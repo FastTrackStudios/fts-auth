@@ -8,11 +8,12 @@ on:
 
 jobs:
   chart:
-    runs-on: ubuntu-latest
+    # The repo's own self-hosted runner on THEBATTLESHIP (NixOS). helm comes
+    # from nixpkgs — a setup-helm download does not run on NixOS.
+    runs-on: [self-hosted, auth]
     steps:
       - uses: actions/checkout@v4
-      - uses: azure/setup-helm@v4
       # The chart is what actually reaches the cluster; a template error
       # here is a failed sync, not a failed build.
-      - run: helm lint deploy/chart/fts-auth
-      - run: helm template fts-auth deploy/chart/fts-auth > /dev/null
+      - run: nix run nixpkgs#kubernetes-helm -- lint deploy/chart/fts-auth
+      - run: nix run nixpkgs#kubernetes-helm -- template fts-auth deploy/chart/fts-auth > /dev/null
