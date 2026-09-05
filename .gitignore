@@ -2,3 +2,7 @@
 result
 result-*
 target/
+
+# Local credentials for running the server outside the cluster. The real
+# values live in the cluster secret; this file never leaves the machine.
+.env
