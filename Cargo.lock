@@ -127,7 +127,7 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 [[package]]
 name = "architect"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "architect-action-derive",
  "architect-derive",
@@ -155,7 +155,7 @@ dependencies = [
 [[package]]
 name = "architect-action-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -165,7 +165,7 @@ dependencies = [
 [[package]]
 name = "architect-auth"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "auth",
  "auth-client",
@@ -176,7 +176,7 @@ dependencies = [
 [[package]]
 name = "architect-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2",
@@ -187,7 +187,7 @@ dependencies = [
 [[package]]
 name = "architect-permissions"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "serde",
  "serde_json",
@@ -197,7 +197,7 @@ dependencies = [
 [[package]]
 name = "architect-rpc-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -207,7 +207,7 @@ dependencies = [
 [[package]]
 name = "architect-telemetry"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "sentry",
  "sentry-tracing",
@@ -299,7 +299,7 @@ checksum = "1505bd5d3d116872e7271a6d4e16d81d0c8570876c8de68093a09ac269d8aac0"
 [[package]]
 name = "auth"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "architect",
  "architect-permissions",
@@ -330,7 +330,7 @@ dependencies = [
 [[package]]
 name = "auth-client"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "base64 0.22.1",
  "serde",
@@ -343,7 +343,7 @@ dependencies = [
 [[package]]
 name = "auth-db"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "auth-proto",
  "sea-orm",
@@ -353,7 +353,7 @@ dependencies = [
 [[package]]
 name = "auth-proto"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "architect",
  "chrono",
@@ -368,7 +368,7 @@ dependencies = [
 [[package]]
 name = "auth-server"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.1#837f403d5e1c877accd9d74bf3d83f2c538fc808"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.8.2#1b007bb68d29e921a2b4ef98f23a815c8a9183c1"
 dependencies = [
  "architect",
  "architect-auth",
@@ -387,6 +387,7 @@ dependencies = [
  "sea-orm-migration",
  "serde",
  "serde_json",
+ "sha2",
  "thiserror 2.0.20",
  "tokio",
  "tower-http",
@@ -3554,7 +3555,7 @@ dependencies = [
  "once_cell",
  "socket2",
  "tracing",
- "windows-sys 0.61.2",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]

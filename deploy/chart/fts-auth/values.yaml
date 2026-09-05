@@ -61,22 +61,35 @@ mail:
   username: ""
   from: ""
 
-# Social sign-in and account linking (GitHub, Google). A client id turns
-# a provider on; the matching client secret is the `github-client-secret`
-# / `google-client-secret` key of the secret below. Register
-# `<baseUrl>/auth/social/<provider>/callback` with the provider. Linked
-# GitHub accounts are what `/oauth2/linked-token` hands to a relying
-# party holding the `forge:github` scope.
+# Social sign-in and account linking (GitHub, Google, TONE3000). A client
+# id turns a provider on. Register
+# `<baseUrl>/auth/social/<provider>/callback` with the provider.
+#
+# GitHub and Google are confidential clients: the matching secret is the
+# `github-client-secret` / `google-client-secret` key of the secret below.
+# TONE3000 is a PKCE PUBLIC client and has no secret half at all — its
+# `t3k_pub_…` key is documented as safe for client-side code, so it lives
+# here rather than in the cluster secret.
+#
+# A linked account is what `/oauth2/linked-token` hands to a relying party
+# holding that provider's scope: `forge:github`, `tone3000`.
+#
+# TONE3000 is link-only. It carries no verified email, so it can be
+# attached to an account that exists but can never create one, and it
+# does not appear on the sign-in page.
 social:
   github:
     clientId: ""
   google:
     clientId: ""
+  tone3000:
+    clientId: ""
 
 # Secret holding `auth-secret`, `database-url`, — when
 # `oidcConfidentialClients` is set — `oidc-clients-extra`, and — when a
-# social provider is on — `github-client-secret` / `google-client-secret`.
-# Delivered by the cluster secrets app; never committed.
+# confidential social provider is on — `github-client-secret` /
+# `google-client-secret`. Delivered by the cluster secrets app; never
+# committed.
 secretName: fts-auth-secrets
 
 resources:

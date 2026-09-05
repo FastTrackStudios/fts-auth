@@ -118,6 +118,16 @@ spec:
             - name: AUTH_GOOGLE_CLIENT_SECRET_FILE
               value: /var/run/secrets/fts-auth/google-client-secret
             {{- end }}
+            {{- if .Values.social.tone3000.clientId }}
+            # <baseUrl>/auth/social/tone3000/callback
+            #
+            # No secret file: TONE3000 is a PKCE public client, and its
+            # publishable key is documented as safe for client-side code —
+            # every plugin that ships one hands it to whoever looks. There
+            # is no secret half to mount.
+            - name: AUTH_TONE3000_CLIENT_ID
+              value: {{ .Values.social.tone3000.clientId | quote }}
+            {{- end }}
             - name: AUTH_SECRET_FILE
               value: /var/run/secrets/fts-auth/auth-secret
             - name: AUTH_DATABASE_URL_FILE

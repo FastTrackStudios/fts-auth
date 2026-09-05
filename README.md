@@ -59,6 +59,7 @@ Optional, with defaults:
 | `AUTH_RUN_MIGRATIONS` | `true` | Idempotent; safe on every pod start. |
 | `AUTH_GITHUB_CLIENT_ID` / `AUTH_GITHUB_CLIENT_SECRET` (`_FILE`) | unset | "Continue with GitHub" and account linking. Register `<base>/auth/social/github/callback` with the OAuth App. `AUTH_GITHUB_SCOPES` defaults to `repo read:user user:email` — `repo` is what lets Task push a wiki edit as the linked person. |
 | `AUTH_GOOGLE_CLIENT_ID` / `AUTH_GOOGLE_CLIENT_SECRET` (`_FILE`) | unset | "Continue with Google" and account linking. Authorized redirect URI `<base>/auth/social/google/callback`; `AUTH_GOOGLE_SCOPES` defaults to `openid email profile`. |
+| `AUTH_TONE3000_CLIENT_ID` | unset | Linking a TONE3000 account, so the apps can browse and download NAM captures as that person. Register `<base>/auth/social/tone3000/callback` against the same key. There is deliberately no secret variable: it is a PKCE PUBLIC client, and its `t3k_pub_…` key is documented as safe for client-side code. **Link-only** — TONE3000 carries no verified email, so it never appears on the sign-in page and cannot create an account. Its linked-token scope is `tone3000`. |
 | `AUTH_LINKED_TOKEN_SCOPE` | `forge:github` | The OIDC scope a relying party must hold for `GET /oauth2/linked-token?provider=github` to hand it the signed-in person's linked GitHub token. First-party clients list it in their `scopes`. |
 
 The `_FILE` variants are preferred in the cluster: a mounted file does
