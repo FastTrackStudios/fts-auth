@@ -20,7 +20,11 @@ async fn main() -> eyre::Result<()> {
     architect::host::init_tracing("info,auth_server=debug,fts_auth=debug");
     architect::host::install_panic_logger();
 
-    let config = ServerConfig::from_env()?;
+    // `load`, not the derived `from_env`: only `load` reads AUTH_OIDC_CLIENTS
+    // (and merges the confidential extras). With `from_env` the issuer
+    // boots with no clients and every /oauth2/authorize is refused as
+    // invalid credentials — which is what shipped between v0.8.3 and now.
+    let config = ServerConfig::load()?;
 
     // Fail loudly rather than quietly issuing tokens no one can trust.
     // A misconfigured issuer is not a cosmetic problem: it is the value
