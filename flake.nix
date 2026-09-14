@@ -44,7 +44,7 @@
             # sort first — which is why the key names a crate nothing here
             # depends on directly.
             outputHashes = {
-              "architect-0.1.0" = "sha256-IBxL61ap+88p+1c+o35RZsrB8+1NuapQzihsxYA50I8=";
+              "architect-0.1.0" = "sha256-jc7k3WEm3Gyk0VoQb/Hsy+q/N2qT0nKDkA2HEL1Gl9s=";
               "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
               # v0.8.3 brings auth-ui, which is a Dioxus application, so
               # three more git sources arrive with it. Same rule: one
