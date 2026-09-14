@@ -44,8 +44,16 @@
             # sort first — which is why the key names a crate nothing here
             # depends on directly.
             outputHashes = {
-              "architect-0.1.0" = "sha256-arlhrXn2qxgfG+uz5+lvgeZgaszIx19ZLd4yIxe+7kc=";
+              "architect-0.1.0" = "sha256-UcagrijcB1tRgtdXb8p4Y0VFA75JxlQtkLCxRGZL5XU=";
               "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
+              # v0.8.3 brings auth-ui, which is a Dioxus application, so
+              # three more git sources arrive with it. Same rule: one
+              # entry per source, keyed by the alphabetically first crate
+              # that source provides — which is why none of these names
+              # is a crate this repo depends on directly.
+              "dioxus-attributes-0.1.0" = "sha256-nGZMMY/xDO9zPmFf4TBPiUSYKzCwlSyEEcjJFoGxpkc=";
+              "dioxus-sdk-time-0.7.0" = "sha256-p8o2hmdB2LJYyFci3meqEClpqDhW9Kb2bs8JCXOJw4M=";
+              "lucide-dioxus-2.26.0" = "sha256-jDss/I2w9trqzXuQx+8RXhIgV0F6PfdbwWwnnDz1leM=";
             };
           };
 
