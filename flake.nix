@@ -44,7 +44,10 @@
             # sort first — which is why the key names a crate nothing here
             # depends on directly.
             outputHashes = {
-              "architect-0.1.0" = "sha256-OKAdtePD77Flm97LZjonskAx8DIkj+urDgjpdjY8IuU=";
+              "vox-phon-0.10.0-rc.7" = "sha256-aYDaHTS2NHVK1sp/yZwbzM2WNUsIzmtOwJdvUE46iUk=";
+              "phon-jit-0.2.0-rc.7" = "sha256-5a0PwCfBdJjV06rv2Nn5x8VnX7mx5/oPl0IiDne/OUI=";
+              "facet-core-0.50.0-rc.7" = "sha256-/OA9kGYoZZkUB6278O3e3qOmhHu96Cyg5Ud07HMWUA8=";
+              "architect-0.1.0" = "sha256-6TeXAzggFxawD+E6zbe5EKNtgJoRLYHlm4YEfNOfwnU=";
               "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
               # v0.8.3 brings auth-ui, which is a Dioxus application, so
               # three more git sources arrive with it. Same rule: one
