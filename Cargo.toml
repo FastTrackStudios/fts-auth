@@ -11,8 +11,8 @@ description = "The deployed FastTrackStudio identity server — auth.fasttrackst
 #
 # Pinned to a tag, not a branch: an auth server is the last thing that
 # should change under you unnoticed.
-auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.8.11" }
-architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.8.11", features = ["server", "host"] }
+auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.9.3" }
+architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.9.3", features = ["server", "host"] }
 eyre = "0.6"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
@@ -20,3 +20,15 @@ tracing = "0.1"
 [profile.release]
 lto = "thin"
 strip = true
+
+# The FastTrackStudios/vendor forks the rc.7 fleet runs on — the same the
+# architect workspace patches in (a dependency's [patch] does not reach
+# its consumers, so each binary carries it). Each fork's reason is in
+# vendor's README: without them a vox reply with a Uuid or timestamp
+# panics (phon), timestamps lose their sub-seconds (facet-core), and a
+# schema exchange fails outright (vox-phon).
+[patch.crates-io]
+phon = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
+phon-jit = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.2.3" }
+facet-core = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
+vox-phon = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.3.0" }
