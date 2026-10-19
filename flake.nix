@@ -47,14 +47,14 @@
               "vox-phon-0.10.0-rc.7" = "sha256-aYDaHTS2NHVK1sp/yZwbzM2WNUsIzmtOwJdvUE46iUk=";
               "phon-jit-0.2.0-rc.7" = "sha256-5a0PwCfBdJjV06rv2Nn5x8VnX7mx5/oPl0IiDne/OUI=";
               "facet-core-0.50.0-rc.7" = "sha256-/OA9kGYoZZkUB6278O3e3qOmhHu96Cyg5Ud07HMWUA8=";
-              "architect-0.1.0" = "sha256-6TeXAzggFxawD+E6zbe5EKNtgJoRLYHlm4YEfNOfwnU=";
+              "architect-0.1.0" = "sha256-1ViSDGgkWIaFN5YxNu8ahVLmtFS/7ICxgYZz1iUIgP0=";
               "const-serialize-0.8.0-alpha.0" = "sha256-oHqJMK+0yxoQ9N6eKD6TeWATtlsFXmdw/MX/PIs6UyM=";
               # v0.8.3 brings auth-ui, which is a Dioxus application, so
               # three more git sources arrive with it. Same rule: one
               # entry per source, keyed by the alphabetically first crate
               # that source provides — which is why none of these names
               # is a crate this repo depends on directly.
-              "dioxus-attributes-0.1.0" = "sha256-nGZMMY/xDO9zPmFf4TBPiUSYKzCwlSyEEcjJFoGxpkc=";
+              "dioxus-attributes-0.1.0" = "sha256-vNnwk43ZdqXJO/oPh9oFsB0WiKpgop236Ez9xnFpkes=";
               "dioxus-sdk-time-0.7.0" = "sha256-p8o2hmdB2LJYyFci3meqEClpqDhW9Kb2bs8JCXOJw4M=";
               "lucide-dioxus-2.26.0" = "sha256-jDss/I2w9trqzXuQx+8RXhIgV0F6PfdbwWwnnDz1leM=";
             };
