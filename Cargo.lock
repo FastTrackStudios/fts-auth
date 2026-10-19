@@ -170,7 +170,7 @@ dependencies = [
 [[package]]
 name = "architect"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect-action-derive",
  "architect-derive",
@@ -211,7 +211,7 @@ dependencies = [
 [[package]]
 name = "architect-action-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -221,7 +221,7 @@ dependencies = [
 [[package]]
 name = "architect-auth"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "auth",
  "auth-client",
@@ -232,7 +232,7 @@ dependencies = [
 [[package]]
 name = "architect-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2",
@@ -243,7 +243,7 @@ dependencies = [
 [[package]]
 name = "architect-permissions"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "serde",
  "serde_json",
@@ -253,7 +253,7 @@ dependencies = [
 [[package]]
 name = "architect-rpc-derive"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -263,7 +263,7 @@ dependencies = [
 [[package]]
 name = "architect-story-core"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "linkme",
 ]
@@ -271,7 +271,7 @@ dependencies = [
 [[package]]
 name = "architect-story-macros"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "heck 0.5.0",
  "proc-macro2",
@@ -282,7 +282,7 @@ dependencies = [
 [[package]]
 name = "architect-story-runtime"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect-story-core",
  "architect-story-macros",
@@ -293,7 +293,7 @@ dependencies = [
 [[package]]
 name = "architect-telemetry"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "sentry",
  "sentry-tracing",
@@ -304,7 +304,7 @@ dependencies = [
 [[package]]
 name = "architect-ui"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect-story-runtime",
  "chrono",
@@ -478,7 +478,7 @@ dependencies = [
 [[package]]
 name = "auth"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect",
  "architect-permissions",
@@ -514,7 +514,7 @@ dependencies = [
 [[package]]
 name = "auth-client"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "base64 0.22.1",
  "serde",
@@ -527,7 +527,7 @@ dependencies = [
 [[package]]
 name = "auth-db"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "auth-proto",
  "chrono",
@@ -541,7 +541,7 @@ dependencies = [
 [[package]]
 name = "auth-proto"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect",
  "chrono",
@@ -556,7 +556,7 @@ dependencies = [
 [[package]]
 name = "auth-server"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect",
  "architect-auth",
@@ -587,7 +587,7 @@ dependencies = [
 [[package]]
 name = "auth-ui"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.3#e621b8999d9a1fee0074f8cc30546de8923f12f7"
+source = "git+https://github.com/FastTrackStudios/architect?tag=v0.9.6#ecba46d73fec35e719d443506ac843442261acc7"
 dependencies = [
  "architect-auth",
  "architect-ui",
@@ -1616,7 +1616,7 @@ dependencies = [
 [[package]]
 name = "dioxus-attributes"
 version = "0.1.0"
-source = "git+https://github.com/FastTrackStudios/dioxus-components?branch=main#587cc53af32885cdcc68a5cb256a281c40b58a7e"
+source = "git+https://github.com/FastTrackStudios/dioxus-components?branch=main#0e09ef9ec8c84a7814f141eb7b76602e4fae6849"
 dependencies = [
  "dioxus-rsx",
  "proc-macro2",
@@ -1817,7 +1817,7 @@ dependencies = [
 [[package]]
 name = "dioxus-primitives"
 version = "0.0.1"
-source = "git+https://github.com/FastTrackStudios/dioxus-components?branch=main#587cc53af32885cdcc68a5cb256a281c40b58a7e"
+source = "git+https://github.com/FastTrackStudios/dioxus-components?branch=main#0e09ef9ec8c84a7814f141eb7b76602e4fae6849"
 dependencies = [
  "dioxus",
  "dioxus-attributes",
