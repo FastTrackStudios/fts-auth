@@ -83,7 +83,10 @@
             };
           };
 
-          nativeBuildInputs = [ pkgs.pkg-config ];
+          nativeBuildInputs = [
+            pkgs.pkg-config
+            pkgs.removeReferencesTo
+          ];
           buildInputs = [ pkgs.openssl ];
 
           # The round-trip tests bind sockets and the postgres ones want a
@@ -94,6 +97,13 @@
           # lock but not in the binary: off, as architect's own server
           # builds have it (its flake.nix, `architect-node`).
           RUSTFLAGS = "--cfg no_workspace_hack";
+
+          # std's panic locations name the toolchain's rust-src, which would
+          # keep the whole toolchain (about 2 GB) in the runtime closure.
+          postFixup = ''
+            remove-references-to -t ${toolchain} $out/bin/fts-auth
+          '';
+          disallowedReferences = [ toolchain ];
 
           meta.mainProgram = "fts-auth";
         };
