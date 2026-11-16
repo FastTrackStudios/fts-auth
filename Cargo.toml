@@ -11,8 +11,8 @@ description = "The deployed FastTrackStudio identity server — auth.fasttrackst
 #
 # Pinned to a tag, not a branch: an auth server is the last thing that
 # should change under you unnoticed.
-auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.9.30" }
-architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.9.30", features = ["server", "host"] }
+auth-server = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.13.1" }
+architect = { git = "https://github.com/FastTrackStudios/architect", tag = "v0.13.1", features = ["server", "host"] }
 eyre = "0.6"
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
@@ -21,14 +21,72 @@ tracing = "0.1"
 lto = "thin"
 strip = true
 
-# The FastTrackStudios/vendor forks the rc.7 fleet runs on — the same the
-# architect workspace patches in (a dependency's [patch] does not reach
-# its consumers, so each binary carries it). Each fork's reason is in
-# vendor's README: without them a vox reply with a Uuid or timestamp
-# panics (phon), timestamps lose their sub-seconds (facet-core), and a
-# schema exchange fails outright (vox-phon).
+# A dependency's [patch] does not reach its consumers, so each binary
+# carries the one it needs.
+#
+# The FastTrackStudios/vendor forks the rc.7 fleet runs on. Each fork's
+# reason is in vendor's README: without them a vox reply with a Uuid or
+# timestamp panics (phon), timestamps lose their sub-seconds (facet-core),
+# and a schema exchange fails outright (vox-phon).
+#
+# Since v0.11 architect depends on its workspace-hack (cargo-hakari, the
+# fleet feature union), which puts the desktop stack (Dioxus native,
+# Blitz, the editor) in this lock. Cargo resolves it only with architect's
+# own patches, so the rest is architect v0.13.1's [patch] tables (less
+# editor-lsp, which this graph never reaches).
+# None of it is compiled: flake.nix (and a local build) passes
+# `--cfg no_workspace_hack`, as architect's own server builds do.
 [patch.crates-io]
 phon = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
 phon-jit = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.2.3" }
-facet-core = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
+facet-core = { git = "https://www.github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
 vox-phon = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.3.0" }
+blitz-dom = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-traits = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-paint = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-shell = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-net = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-html = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+anyrender = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+anyrender_vello = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+anyrender_vello_hybrid = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+winit-uikit = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+wgpu-hal = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+raw-window-metal = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+styx-format = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.1.0" }
+
+# Three desktop-stack crates the lock would otherwise hold twice, at the
+# same version from crates.io and from git, which nixpkgs' importCargoLock
+# cannot vendor (one directory per name-version). Never compiled here:
+# only the workspace-hack's stack reaches them.
+debug_timer = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+selectors = { git = "https://github.com/nicoburns/stylo", rev = "78734bf554bb40af9dc11c0eedbe724f6055697c" }
+servo_arc = { git = "https://github.com/nicoburns/stylo", rev = "78734bf554bb40af9dc11c0eedbe724f6055697c" }
+
+[patch."https://github.com/DioxusLabs/dioxus"]
+dioxus-native = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+dioxus-native-dom = { git = "https://www.github.com/FastTrackStudios/vendor", rev = "25bf4bcdfd0b6acb268ca91a93bc8ff8da683a96" }
+dioxus-vdom = { git = "https://github.com/FastTrackStudios/vendor", tag = "v0.7.1" }
+
+[patch."https://github.com/FastTrackStudios/editor"]
+editor-ext = { git = "https://www.github.com/FastTrackStudios/editor", rev = "6817dc2c709fbb5a7858229592bbbc85eed49528" }
+editor-state = { git = "https://www.github.com/FastTrackStudios/editor", rev = "6817dc2c709fbb5a7858229592bbbc85eed49528" }
+editor-syntax = { git = "https://www.github.com/FastTrackStudios/editor", rev = "6817dc2c709fbb5a7858229592bbbc85eed49528" }
+editor-view = { git = "https://www.github.com/FastTrackStudios/editor", rev = "6817dc2c709fbb5a7858229592bbbc85eed49528" }
+editor-vim = { git = "https://www.github.com/FastTrackStudios/editor", rev = "6817dc2c709fbb5a7858229592bbbc85eed49528" }
+
+[patch."https://github.com/FastTrackStudios/blitz"]
+blitz-dom = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-traits = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-paint = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-shell = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-net = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+blitz-html = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+anyrender = { git = "https://www.github.com/FastTrackStudios/blitz", rev = "db5b7ef11e4df19ef317c23f77152ec5e1887101" }
+
+[patch."https://github.com/FastTrackStudios/vendor"]
+# The workspace-hack names facet-core at vendor v0.4.0 directly; v0.4.1 is
+# the same code without the packaging leftovers (Cargo.toml.orig) that
+# break vendoring. Both point at the www. URL so the graph has one copy.
+facet-core = { git = "https://www.github.com/FastTrackStudios/vendor", tag = "v0.4.1" }
+dioxus-native-dom = { git = "https://www.github.com/FastTrackStudios/vendor", rev = "25bf4bcdfd0b6acb268ca91a93bc8ff8da683a96" }
